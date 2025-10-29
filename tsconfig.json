@@ -11,7 +11,17 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-    "ignoreDeprecations": "5.0"
+    "ignoreDeprecations": "5.0",
+    // 🔹 Aliases
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": [
+        "src/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ]
+    }
   },
   "include": [
     "src/**/*"
