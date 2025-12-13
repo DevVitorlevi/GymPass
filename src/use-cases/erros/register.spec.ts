@@ -2,7 +2,7 @@ import { compare } from 'bcryptjs'
 import { describe, expect, it } from 'vitest'
 import { RegisterUseCase } from '../auth/register.use-case.js'
 
-
+// Unit tests cannot be integration tests. No Database interation
 describe('Register Use Case', () => {
   it('should hash user password upon registration', async () => {
     const registerUseCase = new RegisterUseCase({
@@ -17,7 +17,6 @@ describe('Register Use Case', () => {
           password_hash: data.password_hash,
           create_at: new Date()
         }
-
       },
     })
 
