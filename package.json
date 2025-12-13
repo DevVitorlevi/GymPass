@@ -8,7 +8,8 @@
     "build": "tsup --out-dir build",
     "start": "node build/server.ts",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:coverage": "vitest --coverage"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@types/node": "^24.9.1",
     "@types/pg": "^8.15.6",
+    "@vitest/coverage-v8": "^4.0.15",
     "prisma": "^7.0.0",
     "tsup": "^8.5.0",
     "tsx": "^4.20.6",
