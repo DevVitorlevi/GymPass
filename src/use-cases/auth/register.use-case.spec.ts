@@ -1,17 +1,23 @@
 import { InMemoryUsersRepository } from '@src/repositories/in-memory/in-memory-users-repository.js'
 import { compare } from 'bcryptjs'
-import { describe, expect, it } from 'vitest'
-import { RegisterUseCase } from './register.use-case.js'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { UserAlreadyExistError } from '../erros/user-already-exist.error.js'
+import { RegisterUseCase } from './register.use-case.js'
+
+
+let usersRepository: InMemoryUsersRepository
+let sut: RegisterUseCase
 
 // Unit tests cannot be integration tests. No Database interation
 describe('Register Use Case', () => {
 
-  it('should be able to register', async () => {
-    const inMemoryUsersRepository = new InMemoryUsersRepository()
-    const registerUseCase = new RegisterUseCase(inMemoryUsersRepository)
+  beforeEach(() => {
+    usersRepository = new InMemoryUsersRepository
+    sut = new RegisterUseCase(usersRepository)
+  })
 
-    const { user } = await registerUseCase.execute({
+  it('should be able to register', async () => {
+    const { user } = await sut.execute({
       name: "Mr Whatsit",
       email: "mrwhatsit@gmail.com",
       password: "123456"
@@ -21,10 +27,8 @@ describe('Register Use Case', () => {
   })
 
   it('should hash user password upon registration', async () => {
-    const inMemoryUsersRepository = new InMemoryUsersRepository()
-    const registerUseCase = new RegisterUseCase(inMemoryUsersRepository)
 
-    const { user } = await registerUseCase.execute({
+    const { user } = await sut.execute({
       name: "Mr Whatsit",
       email: "mrwhatsit@gmail.com",
       password: "123456"
@@ -38,19 +42,18 @@ describe('Register Use Case', () => {
   })
 
   it("should not be able to register with same email twice", async () => {
-    const inMemoryUsersRepository = new InMemoryUsersRepository()
-    const registerUseCase = new RegisterUseCase(inMemoryUsersRepository)
+
 
     const email: string = "mrwhatsit@gmail.com"
 
-    await registerUseCase.execute({
+    await sut.execute({
       name: "Mr Whatsit",
       email,
       password: "123456"
     })
 
     await expect(
-      registerUseCase.execute({
+      sut.execute({
         name: "Mr Whatsit",
         email,
         password: "123456"
