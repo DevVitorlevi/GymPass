@@ -1,8 +1,8 @@
 import { InMemoryUsersRepository } from '@src/repositories/in-memory/in-memory-users-repository.js'
 import { compare } from 'bcryptjs'
 import { describe, expect, it } from 'vitest'
-import { RegisterUseCase } from '../auth/register.use-case.js'
-import { UserAlreadyExistError } from './user-already-exist.error.js'
+import { RegisterUseCase } from './register.use-case.js'
+import { UserAlreadyExistError } from '../erros/user-already-exist.error.js'
 
 // Unit tests cannot be integration tests. No Database interation
 describe('Register Use Case', () => {
