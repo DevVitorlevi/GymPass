@@ -1,6 +1,6 @@
 import { prisma } from '@src/lib/prisma.js'
 import { Prisma, type User } from 'generated/prisma/index.js'
-import type { UsersRepository } from './users-repository.interface.js'
+import type { UsersRepository } from '../users-repository.interface.js'
 
 export class PrismaUsersRepository implements UsersRepository {
   async findEmail(email: string) {
