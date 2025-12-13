@@ -26,6 +26,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
         mensage: error.message
       })
     }
+    throw error
   }
 
   return reply.status(201).send({
