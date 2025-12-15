@@ -1,6 +1,6 @@
 
 import { InvalidCredentialsError } from "@src/use-cases/erros/invalid-credentials.error.js";
-import { makeGetUserUseCase } from "@src/use-cases/factories/make-get-user-profile.use.js";
+import { makeGetUserUseCase } from "@src/use-cases/factories/make-get-user-profile.use-case.js";
 import type { FastifyReply, FastifyRequest } from "fastify";
 export interface GetUserParams {
   id: string
