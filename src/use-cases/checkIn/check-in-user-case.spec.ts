@@ -22,8 +22,8 @@ describe("Check In Use Case", () => {
       title: "Spotify Gym",
       description: "",
       phone: "",
-      latitude: new Decimal(0),
-      longitude: new Decimal(0)
+      latitude: new Decimal(-5.20476,),
+      longitude: new Decimal(-37.3056037)
     })
   });
 
@@ -36,8 +36,9 @@ describe("Check In Use Case", () => {
     const { checkIn } = await sut.execute({
       gymID: "gym-1",
       userID: "user-1",
-      userLatitude: 0,
-      userLongitude: 0
+      userLatitude: -5.2048,
+      userLongitude: -37.3056
+
     });
 
     expect(checkIn.id).toEqual(expect.any(String));
@@ -49,8 +50,9 @@ describe("Check In Use Case", () => {
     await sut.execute({
       gymID: "gym-1",
       userID: "user-1",
-      userLatitude: 0,
-      userLongitude: 0
+      userLatitude: -5.2048,
+      userLongitude: -37.3056
+
     });
 
     await expect(
@@ -70,8 +72,9 @@ describe("Check In Use Case", () => {
     await sut.execute({
       gymID: "gym-1",
       userID: "user-1",
-      userLatitude: 0,
-      userLongitude: 0
+      userLatitude: -5.2048,
+      userLongitude: -37.3056
+
 
     });
 
@@ -80,10 +83,35 @@ describe("Check In Use Case", () => {
     const { checkIn } = await sut.execute({
       gymID: "gym-1",
       userID: "user-1",
-      userLatitude: 0,
-      userLongitude: 0
+      userLatitude: -5.2048,
+      userLongitude: -37.3056
+
     });
 
     expect(checkIn.id).toEqual(expect.any(String));
   });
+
+
+  it("should bot be able to create check in on distace gym", async () => {
+
+    gymsRepository.database.push({
+      id: "gym-1",
+      title: "Spotify Gym",
+      description: "",
+      phone: "",
+      latitude: new Decimal(-4.6988146),
+      longitude: new Decimal(-37.3813776)
+    })
+
+    await expect(
+      sut.execute({
+        gymID: "gym-1",
+        userID: "user-1",
+        userLatitude: -4.9827226,
+        userLongitude: -37.7866601
+      })
+    ).rejects.toBeInstanceOf(Error)
+
+  });
+
 });
