@@ -3,11 +3,13 @@ import type { GymsRepository } from "@src/repositories/gyms-repository.interface
 import { getDistanceBetweenCoordinates } from "@src/utils/get-distance-between-coordinate.js";
 import type { CheckIn } from "generated/prisma/index.js";
 import { MaxDistanceError } from "../erros/max-distance.error.js";
+import { ResourceNotFoundError } from "../erros/resource-not-found.error.js";
+import { MaxNumberOfCheckInsError } from "../erros/max-number-of-check-Ins.error.js";
 
 interface CheckInUseCaseRequest {
-  userID: string,
-  gymID: string,
-  userLatitude: number,
+  userID: string
+  gymID: string
+  userLatitude: number
   userLongitude: number
 }
 
@@ -16,18 +18,22 @@ interface CheckInUseCaseResponse {
 }
 
 export class CheckInUseCase {
-  constructor(private checkinsRepository: CheckInsRepository, private gymsRepository: GymsRepository) { }
+  constructor(
+    private checkinsRepository: CheckInsRepository,
+    private gymsRepository: GymsRepository
+  ) { }
 
   async execute({
     userID,
     gymID,
     userLatitude,
-    userLongitude
+    userLongitude,
   }: CheckInUseCaseRequest): Promise<CheckInUseCaseResponse> {
+
     const gym = await this.gymsRepository.findById(gymID)
 
     if (!gym) {
-      throw new MaxDistanceError()
+      throw new ResourceNotFoundError()
     }
 
     const checkInOnSameDay =
@@ -37,12 +43,15 @@ export class CheckInUseCase {
       )
 
     if (checkInOnSameDay) {
-      throw new MaxDistanceError()
+      throw new MaxNumberOfCheckInsError()
     }
 
     const distance = getDistanceBetweenCoordinates(
       { latitude: userLatitude, longitude: userLongitude },
-      { latitude: gym.latitude.toNumber(), longitude: gym.longitude.toNumber() }
+      {
+        latitude: gym.latitude.toNumber(),
+        longitude: gym.longitude.toNumber(),
+      }
     )
 
     const MAX_CHECK_IN_DISTANCE_KM = 0.1
@@ -53,7 +62,7 @@ export class CheckInUseCase {
 
     const checkIn = await this.checkinsRepository.create({
       gym_id: gymID,
-      user_id: userID
+      user_id: userID,
     })
 
     return { checkIn }
