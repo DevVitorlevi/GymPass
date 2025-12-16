@@ -3,13 +3,14 @@ import { InMemoryGymRepository } from "@src/repositories/in-memory/in-memory-gym
 import { Decimal } from "generated/prisma/runtime/library.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CheckInUseCase } from "./check-in.use.case.js";
+import { MaxDistanceError } from "../erros/max-distance.error.js";
 
 let checkinsRepository: InMemoryCheckInsRepository;
 let gymsRepository: InMemoryGymRepository
 let sut: CheckInUseCase;
 
 describe("Check In Use Case", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     checkinsRepository = new InMemoryCheckInsRepository();
     gymsRepository = new InMemoryGymRepository()
     sut = new CheckInUseCase(checkinsRepository, gymsRepository);
@@ -17,7 +18,7 @@ describe("Check In Use Case", () => {
     // Mock da data para um valor fixo
     vi.useFakeTimers();
 
-    gymsRepository.database.push({
+    await gymsRepository.create({
       id: "gym-1",
       title: "Spotify Gym",
       description: "",
@@ -63,7 +64,7 @@ describe("Check In Use Case", () => {
         userLongitude: 0
 
       })
-    ).rejects.toBeInstanceOf(Error);
+    ).rejects.toBeInstanceOf(MaxDistanceError);
   });
 
   it("should be able to check in twice in different days", async () => {
@@ -94,13 +95,13 @@ describe("Check In Use Case", () => {
 
   it("should bot be able to create check in on distace gym", async () => {
 
-    gymsRepository.database.push({
+    await gymsRepository.create({
       id: "gym-1",
       title: "Spotify Gym",
       description: "",
       phone: "",
-      latitude: new Decimal(-4.6988146),
-      longitude: new Decimal(-37.3813776)
+      latitude: new Decimal(-5.20476,),
+      longitude: new Decimal(-37.3056037)
     })
 
     await expect(
@@ -110,7 +111,7 @@ describe("Check In Use Case", () => {
         userLatitude: -4.9827226,
         userLongitude: -37.7866601
       })
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(MaxDistanceError)
 
   });
 
