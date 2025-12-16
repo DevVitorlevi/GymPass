@@ -36,4 +36,7 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
   async findManyCheckInsByUserId(userId: string, page: number) {
     return this.database.filter(checkIns => checkIns.user_id === userId).slice((page - 1) * 20, page * 20)
   }
+  async findByUserMetrics(userId: string) {
+    return this.database.filter(checkIns => checkIns.user_id === userId).length
+  }
 }
