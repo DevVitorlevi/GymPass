@@ -1,7 +1,8 @@
 import type { CheckInsRepository } from "@src/repositories/check-ins-repository.interface.js";
 import type { GymsRepository } from "@src/repositories/gyms-repository.interface.js";
+import { getDistanceBetweenCoordinates } from "@src/utils/get-distance-between-coordinate.js";
 import type { CheckIn } from "generated/prisma/index.js";
-import { InvalidCredentialsError } from "../erros/invalid-credentials.error.js";
+import { ResourceNotFoundError } from "../erros/resource-not-found.error.js";
 
 interface CheckInUseCaseRequest {
   userID: string,
@@ -26,23 +27,34 @@ export class CheckInUseCase {
     const gym = await this.gymsRepository.findById(gymID)
 
     if (!gym) {
-      throw new InvalidCredentialsError()
+      throw new ResourceNotFoundError()
     }
 
-    const checkInOnSameDay = await this.checkinsRepository.findCheckInByUserIdOnDate(
-      userID,
-      new Date()
-    )
+    const checkInOnSameDay =
+      await this.checkinsRepository.findCheckInByUserIdOnDate(
+        userID,
+        new Date()
+      )
 
     if (checkInOnSameDay) {
-      throw new Error('User already checked in today');
+      throw new ResourceNotFoundError()
+    }
+
+    const distance = getDistanceBetweenCoordinates(
+      { latitude: userLatitude, longitude: userLongitude },
+      { latitude: gym.latitude.toNumber(), longitude: gym.longitude.toNumber() }
+    )
+
+    const MAX_CHECK_IN_DISTANCE_KM = 0.1
+
+    if (distance > MAX_CHECK_IN_DISTANCE_KM) {
+      throw new ResourceNotFoundError()
     }
 
     const checkIn = await this.checkinsRepository.create({
       gym_id: gymID,
       user_id: userID
     })
-
 
     return { checkIn }
   }
