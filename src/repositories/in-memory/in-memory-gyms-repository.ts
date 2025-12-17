@@ -30,4 +30,7 @@ export class InMemoryGymRepository implements GymsRepository {
     return gym
   }
 
+  async findManyGym(title: string, page: number) {
+    return this.database.filter(gyms => gyms.title.includes(title)).slice((page - 1) * 20, page * 20)
+  }
 }
