@@ -16,9 +16,23 @@ export async function login(request: FastifyRequest, reply: FastifyReply) {
   try {
 
     const loginUseCase = makeLoginUseCase()
-    const user = await loginUseCase.execute({
+    const { user } = await loginUseCase.execute({
       email,
       password
+    })
+
+    const token = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: user.id
+        }
+      }
+    )
+
+    return reply.status(200).send({
+      message: 'Auth User Sucessful',
+      token
     })
 
   } catch (error) {
@@ -30,7 +44,4 @@ export async function login(request: FastifyRequest, reply: FastifyReply) {
     throw error
   }
 
-  return reply.status(200).send({
-    message: 'Auth User Sucessful'
-  })
 }
