@@ -39,4 +39,24 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
   async findByUserMetrics(userId: string) {
     return this.database.filter(checkIns => checkIns.user_id === userId).length
   }
+
+  async findById(id: string) {
+    const checkIn = await this.database.find(checkIn => checkIn.id === id)
+
+    if (!checkIn) {
+      return null
+    }
+
+    return checkIn
+  }
+
+  async save(checkIn: CheckIn) {
+    const checkInIndex = await this.database.findIndex(item => item.id === checkIn.id)
+
+    if (checkInIndex >= 0) {
+      this.database[checkInIndex] === checkIn
+    }
+
+    return checkIn
+  }
 }
