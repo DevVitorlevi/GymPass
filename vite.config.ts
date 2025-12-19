@@ -21,8 +21,6 @@ export default defineConfig({
           environment: './prisma/vitest-environment-prisma/prisma-test-environment.ts'
         }
       }
-
-
     ]
   }
 })
