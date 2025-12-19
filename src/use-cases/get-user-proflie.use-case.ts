@@ -1,6 +1,6 @@
 import type { UsersRepository } from "@src/repositories/users-repository.interface.js";
 import type { User } from "generated/prisma/index.js";
-import { InvalidCredentialsError } from "../erros/invalid-credentials.error.js";
+import { InvalidCredentialsError } from "./erros/invalid-credentials.error.js";
 
 interface GetUserProfileUseCaseRequest {
   userID: string

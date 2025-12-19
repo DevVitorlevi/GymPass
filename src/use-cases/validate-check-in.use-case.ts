@@ -1,8 +1,8 @@
 import type { CheckInsRepository } from "@src/repositories/check-ins-repository.interface.js";
+import { LateCheckInValidationError } from "@src/use-cases/erros/late-check-in-validation.error.js";
+import { ResourceNotFoundError } from "@src/use-cases/erros/resource-not-found.error.js";
 import dayjs from "dayjs";
 import type { CheckIn } from "generated/prisma/index.js";
-import { LateCheckInValidationError } from "../erros/late-check-in-validation.error.js";
-import { ResourceNotFoundError } from "../erros/resource-not-found.error.js";
 
 interface ValidadateCheckInUseCaseRequest {
   checkInId: string

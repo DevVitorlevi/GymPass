@@ -1,6 +1,6 @@
 import { InMemoryUsersRepository } from "@src/repositories/in-memory/in-memory-users-repository.js";
 import { beforeEach, describe, expect, it } from "vitest";
-import { InvalidCredentialsError } from "../erros/invalid-credentials.error.js";
+import { InvalidCredentialsError } from "./erros/invalid-credentials.error.js";
 import { GetUserProfileUseCase } from "./get-user-proflie.use-case.js";
 
 let usersRepository: InMemoryUsersRepository

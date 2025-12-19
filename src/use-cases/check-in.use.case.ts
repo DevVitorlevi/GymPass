@@ -1,10 +1,10 @@
 import type { CheckInsRepository } from "@src/repositories/check-ins-repository.interface.js";
 import type { GymsRepository } from "@src/repositories/gyms-repository.interface.js";
+import { MaxDistanceError } from "@src/use-cases/erros/max-distance.error.js";
+import { MaxNumberOfCheckInsError } from "@src/use-cases/erros/max-number-of-check-Ins.error.js";
+import { ResourceNotFoundError } from "@src/use-cases/erros/resource-not-found.error.js";
 import { getDistanceBetweenCoordinates } from "@src/utils/get-distance-between-coordinate.js";
 import type { CheckIn } from "generated/prisma/index.js";
-import { MaxDistanceError } from "../erros/max-distance.error.js";
-import { ResourceNotFoundError } from "../erros/resource-not-found.error.js";
-import { MaxNumberOfCheckInsError } from "../erros/max-number-of-check-Ins.error.js";
 
 interface CheckInUseCaseRequest {
   userID: string

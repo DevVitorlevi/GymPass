@@ -1,7 +1,7 @@
 import { InMemoryCheckInsRepository } from "@src/repositories/in-memory/in-memory-check-ins-repository.js"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
-import { LateCheckInValidationError } from "../erros/late-check-in-validation.error.js"
-import { ResourceNotFoundError } from "../erros/resource-not-found.error.js"
+import { LateCheckInValidationError } from "@src/use-cases/erros/late-check-in-validation.error.js"
+import { ResourceNotFoundError } from "@src/use-cases/erros/resource-not-found.error.js"
 import { ValidadateCheckInUseCase } from "./validate-check-in.use-case.js"
 
 let checkinsRepository: InMemoryCheckInsRepository
