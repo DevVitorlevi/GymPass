@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "nodenext",
+    "target": "ESNext",
+    "module": "NodeNext",
     "moduleResolution": "nodenext",
     "strict": true,
     "verbatimModuleSyntax": true,
@@ -12,7 +12,8 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "ignoreDeprecations": "5.0",
-    // 🔹 Aliases
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
       "@src/*": [
