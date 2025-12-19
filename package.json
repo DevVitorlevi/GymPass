@@ -7,11 +7,14 @@
     "start:dev": "tsx watch src/server.ts",
     "build": "tsup --out-dir build",
     "start": "node build/server.ts",
-    "test": "vitest run --project unit",
-    "test:e2e": "vitest run --project e2e",
-    "test:watch": "vitest",
-    "test:e2e:watch": "vitest --project e2e",
-    "test:coverage": "vitest --coverage"
+    "test": "vitest",
+    "test:unit": "vitest run --config vitest.config.mts",
+    "test:unit:watch": "vitest --config vitest.config.mts",
+    "test:unit:ui": "vitest --ui --config vitest.config.mts",
+    "test:unit:coverage": "vitest run --coverage --config vitest.config.mts",
+    "test:e2e": "vitest run --config vitest.config.e2e.mts",
+    "test:e2e:watch": "vitest --config vitest.config.e2e.mts",
+    "test:e2e:ui": "vitest --ui --config vitest.config.e2e.mts"
   },
   "repository": {
     "type": "git",
