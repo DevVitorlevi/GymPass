@@ -1,7 +1,7 @@
-import fastify, { type FastifyInstance } from 'fastify';
 import fastifyJwt from '@fastify/jwt';
-import { PrismaTestEnvironment } from './prisma-test-environment.js';
+import fastify, { type FastifyInstance } from 'fastify';
 import z, { ZodError } from 'zod';
+import { PrismaTestEnvironment } from './prisma-test-environment.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'test-secret';
 
@@ -23,7 +23,7 @@ export async function createE2EApp(): Promise<E2EAppSetup> {
   setPrisma(testEnv.prisma);
 
   // Importa as rotas dinamicamente DEPOIS de configurar o prisma
-  const { appRoutes } = await import('../../src/presentation/routes/route.js');
+  const { appRoutes } = await import('../../src/presentation/controllers/users/route.js');
 
   // Cria uma nova instância do Fastify
   const app = fastify();

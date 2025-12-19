@@ -1,8 +1,8 @@
 import type { FastifyInstance } from "fastify";
 import request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { createE2EApp, destroyE2EApp } from "../../../test/utils/create-e2e-app.js";
-import { PrismaTestEnvironment } from "../../../test/utils/prisma-test-environment.js";
+import { createE2EApp, destroyE2EApp } from "../../../../test/utils/create-e2e-app.js";
+import { PrismaTestEnvironment } from "../../../../test/utils/prisma-test-environment.js";
 
 describe("Register (e2e)", () => {
   let app: FastifyInstance;
