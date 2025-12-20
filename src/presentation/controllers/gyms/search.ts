@@ -11,7 +11,7 @@ export async function search(request: FastifyRequest, reply: FastifyReply) {
   })
 
 
-  const { title, page } = searchGymQueryParams.parse(request.body)
+  const { title, page } = searchGymQueryParams.parse(request.query)
 
 
   const gymUseCase = makeGetGymByTitleUseCase()
