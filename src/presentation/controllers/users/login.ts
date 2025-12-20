@@ -25,12 +25,31 @@ export async function login(request: FastifyRequest, reply: FastifyReply) {
       {},
       {
         sign: {
-          sub: user.id
+          sub: user.id,
+
         }
       }
     )
 
-    return reply.status(200).send({
+    const refreshToken = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: user.id,
+          expiresIn: "7d"
+
+        }
+      }
+    )
+
+    return reply.status(200).setCookie('refreshToken', refreshToken, {
+      path: '/',
+      secure: true,
+      sameSite: true,
+      httpOnly: true
+    }
+
+    ).send({
       message: 'Auth User Sucessful',
       token
     })
