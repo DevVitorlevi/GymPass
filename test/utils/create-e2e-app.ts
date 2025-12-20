@@ -23,8 +23,9 @@ export async function createE2EApp(): Promise<E2EAppSetup> {
   setPrisma(testEnv.prisma);
 
   // Importa as rotas dinamicamente DEPOIS de configurar o prisma
-  const { appRoutes } = await import('../../src/presentation/controllers/users/route.js');
-
+  const { usersRoutes } = await import('../../src/presentation/controllers/users/route.js');
+  const { gymsRoutes } = await import('../../src/presentation/controllers/gyms/routes.js')
+  const { checkInsRoutes } = await import('../../src/presentation/controllers/check-ins/routes.js')
   // Cria uma nova instância do Fastify
   const app = fastify();
 
@@ -32,7 +33,10 @@ export async function createE2EApp(): Promise<E2EAppSetup> {
     secret: JWT_SECRET,
   });
 
-  app.register(appRoutes);
+  app.register(usersRoutes);
+  app.register(gymsRoutes)
+  app.register(checkInsRoutes)
+
 
   app.setErrorHandler((error, _, reply) => {
     if (error instanceof ZodError) {
